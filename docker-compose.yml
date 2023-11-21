@@ -1,0 +1,13 @@
+version: '3'
+services:
+  web-rotafacil:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:80
+    volumes:
+      - ./src:/app/src
+      - ./public:/app/public
+    environment:
+      - CHOKIDAR_USEPOLLING=true

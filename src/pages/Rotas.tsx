@@ -1,0 +1,9 @@
+
+export function Rotas(){
+
+
+	return (
+		<>
+		</>
+	)
+}
