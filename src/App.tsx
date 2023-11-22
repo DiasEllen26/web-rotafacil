@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom"
 import { Home } from "./pages/Home"
 import { Rotas } from "./pages/Rotas"
 import { ThemeProvider } from "styled-components"
+import { connection } from "./config/firebase/connection"
 
 function App() {
 
