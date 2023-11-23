@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import { FormEvent } from 'react';
 import styled from 'styled-components';
 
 // Estilos utilizando styled-components
@@ -33,14 +34,14 @@ const Form = styled.form`
     }
 
     button {
-        reigth: 3px;
-        padding: 10px;
+        padding: 12px;
         border: none;
-        border-radius: 3px;
+        border-radius: 5px;
         background-color: #007bff;
         color: white;
         cursor: pointer;
         transition: background-color 0.3s;
+        width: 100%; /* Definindo a largura do botão como 100% */
 
         &:hover {
             background-color: #0056b3;
@@ -52,20 +53,13 @@ const Form = styled.form`
 
 
 export function Login() {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
 
-    const handleUsernameChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
-        setUsername(e.target.value);
-    };
-
-    const handlePasswordChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
-        setPassword(e.target.value);
-    };
-
-    const handleLogin = () => {
-        console.log('Username:', username);
-        console.log('Password:', password);
+    const handleLogin = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const target = event.target as any
+        const login = target.elements.login.value
+        const senha = target.elements.senha.value
+     
         // Adicione aqui a lógica para autenticar o usuário com as credenciais inseridas
     };
 
@@ -73,26 +67,25 @@ export function Login() {
         <div>
             <LoginContainer>
                 <h2>Login</h2>
-                <Form>
+                <Form onSubmit={handleLogin}>
                     <div>
                         <label htmlFor="username">Username:</label>
                         <input
+                            name='login'
                             type="text"
                             id="username"
-                            value={username}
-                            onChange={handleUsernameChange}
+
                         />
                     </div>
                     <div>
                         <label htmlFor="password">Password:</label>
                         <input
+                            name='senha'
                             type="password"
                             id="password"
-                            value={password}
-                            onChange={handlePasswordChange}
                         />
                     </div>
-                    <button type="button" onClick={handleLogin}>
+                    <button type="submit" >
                         Login
                     </button>
                 </Form>
