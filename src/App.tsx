@@ -1,26 +1,21 @@
 import { Route, Routes } from "react-router-dom"
 import { Home } from "./pages/Home"
 import { Rotas } from "./pages/Rotas"
-import { ThemeProvider } from "styled-components"
+import { GlobalStyle } from "./styles/global"
+import Header from "./components/Navbar"
+
 
 function App() {
 
-	const theme = {
-		primary : "",
-		secondary: "",
-		background: "",
-		text: "",
-		white: "#fff"
-	}
-
   return (
     <>
-			<ThemeProvider theme={theme}>
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="/rotas" element={<Rotas />} />
-				</Routes>
-			</ThemeProvider>
+		<GlobalStyle />
+		<Routes>
+			<Route path="/" element={<Home />} />
+			<Route path="/rotas" element={<Rotas />} />	
+		</Routes>
+
+		<Header />
     </>
   )
 }
