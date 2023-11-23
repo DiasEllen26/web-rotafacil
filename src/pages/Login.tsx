@@ -5,6 +5,7 @@ import styled from 'styled-components';
 const LoginContainer = styled.div`
     max-width: 300px;
     margin: 0 auto;
+    margin-top: 250px;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -32,6 +33,7 @@ const Form = styled.form`
     }
 
     button {
+        reigth: 3px;
         padding: 10px;
         border: none;
         border-radius: 3px;
