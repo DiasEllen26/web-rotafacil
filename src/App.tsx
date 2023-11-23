@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom"
 import { Home } from "./pages/Home"
 import { Rotas } from "./pages/Rotas"
 import { ThemeProvider } from "styled-components"
-import { connection } from "./config/firebase/connection"
+import { FormTest } from "./pages/FormTest"
 
 function App() {
 
@@ -20,6 +20,7 @@ function App() {
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="/rotas" element={<Rotas />} />
+					<Route path="/form" element={<FormTest />} />
 				</Routes>
 			</ThemeProvider>
     </>
