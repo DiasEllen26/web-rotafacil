@@ -1,6 +1,8 @@
 import { addDoc, collection, getDocs } from "firebase/firestore"
 import { DataBase } from "../config/firebase/connection"
 import { FormEvent, useEffect, useState } from "react"
+import { getAllByCollection } from "../utils/firebase/getAllByCollection";
+import { createDoc } from "../utils/firebase/createDoc";
 
 interface IGestor {
 	id: string;
@@ -15,8 +17,7 @@ export function FormTest(){
 
 	const [users, setUsers ] = useState<IGestor[]>()
 	const getUsers = async ()=> {
-		const data = await getDocs(userCollectionRef)
-		const dataFormated = data.docs.map(doc => ({...doc.data(), id: doc.id}))
+		const dataFormated = await getAllByCollection('gestor');
 		setUsers(dataFormated as IGestor[])
 	}
 
@@ -32,7 +33,7 @@ export function FormTest(){
 		const login = target.elements.login.value;
 		const senha = target.elements.senha.value;
 
-		const gestor = await addDoc(userCollectionRef, {
+		const gestor = await createDoc("gestor", {
 			nome,
 			email,
 			login,
@@ -48,21 +49,28 @@ export function FormTest(){
 
 	return(
 		<>
-				<div>
+				<div
+					style={{
+						marginLeft: "20dvw"
+					}}
+				>
 					{users?.map( user => (
 						<>
-
-							<h1>
-								{user.id}
-								<br />
-								{user.nome}
-								<br />
-								{user.email}
-								<br />
-								{user.login}
-								<br />
-								{user.senha}
-							</h1>
+							<div
+								key={user.id}
+							>
+								<h1 >
+									{user.id}
+									<br />
+									{user.nome}
+									<br />
+									{user.email}
+									<br />
+									{user.login}
+									<br />
+									{user.senha}
+								</h1>
+							</div>
 						</>
 					))}
 
