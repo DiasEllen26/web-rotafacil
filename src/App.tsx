@@ -8,6 +8,7 @@ import Login from "./pages/Login/Login"
 import { useEffect, useState } from "react"
 import { Transportadora } from "./pages/Trasnportadora/lista/Transportadora"
 import { FormularioTransportadora } from "./pages/Trasnportadora/formulario/FormularioTransportadora"
+import { Gestor } from "./pages/Gestor/lista/Gestor"
 
 
 function App() {
@@ -31,9 +32,12 @@ function App() {
 				<Route path="/login" element={<Login />} />
 				<Route path="/rotas" element={<Rotas />} />
 				<Route path="/form" element={<FormTest />} />
+
 				<Route path="/transportadora" element={<Transportadora />} />
 				<Route path="/transportadora/:id/editar" element={<FormularioTransportadora />} />
 				<Route path="/transportadora/cadastrar" element={<FormularioTransportadora />} />
+
+				<Route path="/gestor" element={<Gestor />} />
 			</Routes>
 		{/* </ContentWrapper> */}
     </>
