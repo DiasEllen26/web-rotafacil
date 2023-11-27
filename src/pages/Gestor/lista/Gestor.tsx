@@ -25,7 +25,7 @@ export function Gestor(){
 
 	async function handleDelete(id: string){
 		try{
-			await deleteById("transportadora", id);
+			await deleteById("gestor", id);
 			const newGestores = gestores?.filter(gestor => gestor.id !== id);
 			setGestores(newGestores);
 		}catch(error){

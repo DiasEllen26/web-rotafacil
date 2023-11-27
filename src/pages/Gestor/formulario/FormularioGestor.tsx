@@ -58,7 +58,6 @@ export function FormularioGestor(){
 			return
 		}
 
-
 		const senhaCrypted = await criptografarSenha(senha);
 
 		const data = {
