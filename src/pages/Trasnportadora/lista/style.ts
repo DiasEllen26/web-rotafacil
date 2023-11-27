@@ -81,3 +81,11 @@ export const ButtonCadastrar = styled.button`
 		box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
 	}
 `
+
+export const ButtonDeletar = styled.button`
+	cursor: pointer;
+	background-color: red;
+	border: 0px;
+	width: 70px;
+	height: 40px;
+`

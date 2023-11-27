@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { ButtonCadastrar, ContainerButton, ContainerContent } from "./style";
-import { FaPencil } from "react-icons/fa6";
+import { ButtonCadastrar, ButtonDeletar, ContainerButton, ContainerContent } from "./style";
+import { FaPencil, FaRegTrashCan } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import { type ITrasnportadora } from "../../../types/ITrasnportadora";
 import { getAllByCollection } from "../../../utils/firebase/getAllByCollection";
 import { Link } from "react-router-dom";
+import { deleteById } from "../../../utils/firebase/deleteById";
 
 
 
@@ -16,6 +17,16 @@ export function Transportadora(){
 	async function getAllTransportadoras(){
 		const data = await getAllByCollection("transportadora") as unknown as ITrasnportadora[]
 		setTransportadoras(data);
+	}
+
+	async function handleDelete(id: string){
+    try{
+			await deleteById("transportadora", id);
+			const newTransportadoras = transportadoras?.filter(transportadora => transportadora.id !== id);
+			setTransportadoras(newTransportadoras);
+		}catch(error){
+			window.alert(error);
+		}
 	}
 
 
@@ -53,6 +64,15 @@ export function Transportadora(){
 									<FaPencil />
 								</Link>
 							</div>
+
+							<div>
+								<ButtonDeletar
+									onClick={()=> handleDelete(transportadora.id)}
+								>
+									<FaRegTrashCan />
+								</ButtonDeletar>
+							</div>
+
 						</div>
 					))}
 				</ContainerContent>

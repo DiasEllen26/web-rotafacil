@@ -16,7 +16,7 @@ export function FormularioTransportadora(){
 	const [endereco, setEndereco] = useState<string>("");
 	const [nome, setNome] = useState<string>("");
 	const [sitio, setSitio] = useState<string>("");
-	const [telefone, setTelefone] = useState<number>(0);
+	const [telefone, setTelefone] = useState<number>();
 
 	const [isCreating, setCreating] = useState<boolean>(true);
 
@@ -47,9 +47,9 @@ export function FormularioTransportadora(){
 	async function cadastrarOuEditarTransportadora(event: FormEvent<HTMLFormElement>){
 		event.preventDefault();
 
-
 		if(!email || !sitio || !telefone || !nome || !endereco){
-			window.alert("Campos obrigatorios.")
+			window.alert("Campos obrigatorios faltando.")
+			return
 		}
 
 		const data = {
