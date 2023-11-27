@@ -41,7 +41,6 @@ function App() {
 				<Route path="/gestor/cadastrar" element={<FormularioGestor />} />
 				<Route path="/gestor/:id/editar" element={<FormularioGestor/>} />
 
-
 			</Routes>
 		{/* </ContentWrapper> */}
     </>
