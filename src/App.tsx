@@ -9,6 +9,7 @@ import { useEffect, useState } from "react"
 import { Transportadora } from "./pages/Trasnportadora/lista/Transportadora"
 import { FormularioTransportadora } from "./pages/Trasnportadora/formulario/FormularioTransportadora"
 import { Gestor } from "./pages/Gestor/lista/Gestor"
+import { FormularioGestor } from "./pages/Gestor/formulario/FormularioGestor"
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
 				<Route path="/transportadora/cadastrar" element={<FormularioTransportadora />} />
 
 				<Route path="/gestor" element={<Gestor />} />
+				<Route path="/gestor/cadastrar" element={<FormularioGestor />} />
 			</Routes>
 		{/* </ContentWrapper> */}
     </>

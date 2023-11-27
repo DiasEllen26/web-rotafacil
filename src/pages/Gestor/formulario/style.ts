@@ -1,13 +1,14 @@
 import styled from "styled-components";
 
-export const ContainerContent = styled.div`
+export const ContentContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	max-width: 100%;
+	flex-wrap: wrap;
+	width: 100%;
 	margin-top: 5dvh;
-`
+`;
 
 export const Formulario = styled.form`
 	display: flex;
@@ -16,7 +17,6 @@ export const Formulario = styled.form`
 		margin-left: 25px;
 	}
 `
-
 export const InputFormulario = styled.input`
 	margin: 15px;
 	width: 400px;

@@ -27,8 +27,6 @@ export function FormularioTransportadora(){
 			definirTransportadoraExistente(id);
 			setCreating(false)
 		}
-
-
 	},[])
 
 	async function definirTransportadoraExistente(id:string){

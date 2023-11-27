@@ -3,5 +3,5 @@ export interface IGestor {
 	nome: string;
 	email: string;
 	login: string;
-	password: string;
+	senha: string;
 }

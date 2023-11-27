@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { type IGestor } from "../../../types/IGestor";
 import { getAllByCollection } from "../../../utils/firebase/getAllByCollection";
-import { ButtonDeletar, ContentContainer, ListContainer } from "./style";
+import {  ButtonCadastrar, ButtonDeletar, ContainerButton, ContentContainer, ListContainer } from "./style";
 import { Link } from "react-router-dom";
 import { FaPencil, FaRegTrashCan } from "react-icons/fa6";
 import { deleteById } from "../../../utils/firebase/deleteById";
@@ -60,6 +60,16 @@ export function Gestor(){
 
 				</ListContainer>
 			</ContentContainer>
+
+			<ContainerButton>
+					<ButtonCadastrar
+						onClick={() => {
+							navigate('/gestor/cadastrar');
+						}}
+					>
+						Cadastrar
+					</ButtonCadastrar>
+				</ContainerButton>
 
 		</>
 	)
