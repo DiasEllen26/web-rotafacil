@@ -11,7 +11,6 @@ import { FormularioTransportadora } from "./pages/Trasnportadora/formulario/Form
 import { Gestor } from "./pages/Gestor/lista/Gestor"
 import { FormularioGestor } from "./pages/Gestor/formulario/FormularioGestor"
 
-
 function App() {
 
   const [showHeader, setShowHeader] = useState(true);
@@ -40,6 +39,9 @@ function App() {
 
 				<Route path="/gestor" element={<Gestor />} />
 				<Route path="/gestor/cadastrar" element={<FormularioGestor />} />
+				<Route path="/gestor/:id/editar" element={<FormularioGestor/>} />
+
+
 			</Routes>
 		{/* </ContentWrapper> */}
     </>

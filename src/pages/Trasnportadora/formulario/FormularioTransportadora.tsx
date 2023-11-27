@@ -118,7 +118,7 @@ export function FormularioTransportadora(){
 					<ButtonEnviarFormulario
 						type="submit"
 					>
-					Enviar
+					{isCreating ? "Cadastrar": "Atualizar"}
 				</ButtonEnviarFormulario>
 				</Formulario>
 			</ContainerContent>

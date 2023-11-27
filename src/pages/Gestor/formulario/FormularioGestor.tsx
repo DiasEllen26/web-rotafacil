@@ -4,7 +4,8 @@ import { findById } from "../../../utils/firebase/findById";
 import { IGestor } from "../../../types/IGestor";
 import { createDoc } from "../../../utils/firebase/createDoc";
 import { updateDocById } from "../../../utils/firebase/updateDocById";
-import { ButtonEnviarFormulario, ContentContainer, Formulario, InputFormulario } from "./style";
+import { ButtonEnviarFormulario, ButtonUpdateSenha, ContentContainer, Formulario, InputFormulario } from "./style";
+import Swal from "sweetalert2";
 
 
 export function FormularioGestor(){
@@ -81,6 +82,46 @@ export function FormularioGestor(){
 		return
 	}
 
+	async function atualizarSenha(){
+		Swal.fire({
+			title: "Digite sua nova senha",
+			input: "password",
+			inputAttributes: {
+				autocapitalize: "off"
+			},
+			showCancelButton: true,
+			confirmButtonText: "Atualizar",
+			showLoaderOnConfirm: true,
+			allowOutsideClick: () => !Swal.isLoading()
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				if(result.value && result.value.length > 0) {
+
+					const senhaCrypted = await criptografarSenha(result.value);
+
+					const data = {
+						email,
+						nome,
+						login,
+						senha: senhaCrypted,
+					}
+					if(!id){
+						return
+					}
+					await updateDocById("gestor", id, data);
+
+					Swal.fire({
+						position: "top-end",
+						icon: "success",
+						title: "Senha atualizado com sucesso",
+						showConfirmButton: false,
+						timer: 1000
+					})
+				}
+			}
+		});
+	}
+
 	return(
 		<>
 			<ContentContainer>
@@ -112,7 +153,7 @@ export function FormularioGestor(){
 
 					/>
 
-					{isCreating && (
+					{isCreating ? (
 						<>
 							<label>Senha</label>
 							<InputFormulario
@@ -123,13 +164,24 @@ export function FormularioGestor(){
 
 							/>
 						</>
+					): (
+						<>
+							<br />
+							<ButtonUpdateSenha
+							  type="button"
+								onClick={() => atualizarSenha()}
+							>
+								Atualizar Senha
+							</ButtonUpdateSenha>
+						</>
 					)}
 
 					<br />
 					<br />
 
+
 				<ButtonEnviarFormulario>
-					{isCreating ? "cadastrar": "Atualizar"}
+					{isCreating ? "Cadastrar": "Atualizar"}
 				</ButtonEnviarFormulario>
 
 				</Formulario>
