@@ -6,7 +6,7 @@ import Header from "./components/Navbar"
 import { FormTest } from "./pages/FormTest"
 import Login from "./pages/Login/Login"
 import { useEffect, useState } from "react"
-import { Transportadora } from "./pages/Trasnportadora/lista/Trasnportadora"
+import { Transportadora } from "./pages/Trasnportadora/lista/Transportadora"
 import { FormularioTransportadora } from "./pages/Trasnportadora/formulario/FormularioTransportadora"
 
 
@@ -32,7 +32,8 @@ function App() {
 				<Route path="/rotas" element={<Rotas />} />
 				<Route path="/form" element={<FormTest />} />
 				<Route path="/transportadora" element={<Transportadora />} />
-				<Route path="/trasnportadora/cadastrar" element={<FormularioTransportadora />} />
+				<Route path="/transportadora/:id/editar" element={<FormularioTransportadora />} />
+				<Route path="/transportadora/cadastrar" element={<FormularioTransportadora />} />
 			</Routes>
 		{/* </ContentWrapper> */}
     </>

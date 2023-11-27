@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { ButtonCadastrar, ContainerButton, ContainerContent } from "./style";
+import { FaPencil } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import { type ITrasnportadora } from "../../../types/ITrasnportadora";
 import { getAllByCollection } from "../../../utils/firebase/getAllByCollection";
+import { Link } from "react-router-dom";
 
 
 
@@ -45,6 +47,12 @@ export function Transportadora(){
 							<h2>
 								{transportadora.email}
 							</h2>
+
+							<div>
+								<Link to={`${transportadora.id}/editar/`}>
+									<FaPencil />
+								</Link>
+							</div>
 						</div>
 					))}
 				</ContainerContent>
@@ -52,7 +60,7 @@ export function Transportadora(){
 				<ContainerButton>
 					<ButtonCadastrar
 							onClick={() => {
-								navigate('/trasnportadora/cadastrar')
+								navigate('/transportadora/cadastrar')
 							}}
 						>
 							Cadastrar
