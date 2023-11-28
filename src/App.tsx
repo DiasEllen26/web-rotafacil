@@ -10,6 +10,7 @@ import { Transportadora } from "./pages/Trasnportadora/lista/Transportadora"
 import { FormularioTransportadora } from "./pages/Trasnportadora/formulario/FormularioTransportadora"
 import { Gestor } from "./pages/Gestor/lista/Gestor"
 import { FormularioGestor } from "./pages/Gestor/formulario/FormularioGestor"
+import Usuarios from "./pages/usuario/lista"
 
 function App() {
 
@@ -41,6 +42,7 @@ function App() {
 				<Route path="/gestor/cadastrar" element={<FormularioGestor />} />
 				<Route path="/gestor/:id/editar" element={<FormularioGestor/>} />
 
+				<Route path="/usuario" element={<Usuarios />} />
 
 			</Routes>
 		{/* </ContentWrapper> */}
