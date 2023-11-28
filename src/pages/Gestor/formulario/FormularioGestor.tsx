@@ -4,8 +4,10 @@ import { findById } from "../../../utils/firebase/findById";
 import { IGestor } from "../../../types/IGestor";
 import { createDoc } from "../../../utils/firebase/createDoc";
 import { updateDocById } from "../../../utils/firebase/updateDocById";
-import { ButtonEnviarFormulario, ButtonUpdateSenha, ContentContainer, Formulario, InputFormulario } from "./style";
 import Swal from "sweetalert2";
+import { ButtonEnviarFormulario, ContainerContent, Formulario, InputFormulario } from "../../../components/Formulario";
+import { ButtonUpdateSenha } from "./style";
+import { Loading } from "../../../components/Loading/Loading";
 
 
 export function FormularioGestor(){
@@ -21,10 +23,11 @@ export function FormularioGestor(){
 
 	const [isCreating, setCreating] = useState<boolean>(true);
 
-	useEffect(()=>{
+	const [isLoading, setLoading] = useState<boolean>(false);
 
+	useEffect(()=>{
 		if(id){
-			console.log(id);
+			setLoading(true)
 			definirGestorExistente(id);
 			setCreating(false)
 		}
@@ -37,6 +40,7 @@ export function FormularioGestor(){
 		setNome(nome);
 		setLogin(login);
 		setSenha(senha);
+		setLoading(false)
 	}
 
 	async function criptografarSenha(senha: string) {
@@ -55,7 +59,11 @@ export function FormularioGestor(){
 		event.preventDefault();
 
 		if(!email || !nome || !login || !senha){
-			window.alert("Campos obrigatorios faltando")
+			Swal.fire({
+				icon: "error",
+				title: "Erro",
+				text: "Campos obrigatórios faltando."
+			});
 			return
 		}
 
@@ -69,7 +77,9 @@ export function FormularioGestor(){
 		}
 
 		if(isCreating){
+			setLoading(true);
 			await createDoc("gestor", data)
+			setLoading(false);
 			navigate("/gestor")
 		}
 
@@ -77,8 +87,10 @@ export function FormularioGestor(){
 		if(!id){
 			return
 		}
+		setLoading(true);
 		await updateDocById("gestor", id, data);
 		navigate('/gestor')
+		setLoading(false);
 		return
 	}
 
@@ -108,8 +120,9 @@ export function FormularioGestor(){
 					if(!id){
 						return
 					}
+					setLoading(true)
 					await updateDocById("gestor", id, data);
-
+					setLoading(false)
 					Swal.fire({
 						position: "top-end",
 						icon: "success",
@@ -117,6 +130,7 @@ export function FormularioGestor(){
 						showConfirmButton: false,
 						timer: 1000
 					})
+
 				}
 			}
 		});
@@ -124,68 +138,73 @@ export function FormularioGestor(){
 
 	return(
 		<>
-			<ContentContainer>
-				<Formulario
-					onSubmit={cadastrarOuEditarGestor}
-				>
-					<label>Email</label>
-					<InputFormulario
-						name="email"
-						type="email"
-						value={email}
-						onChange={e => setEmail(e.target.value)}
-					/>
+			{isLoading ?
+			(<Loading visible={isLoading} />): (
 
-					<label>Nome</label>
-					<InputFormulario
-						name="nome"
-						type="text"
-						value={nome}
-						onChange={e => setNome(e.target.value)}
-					/>
+			<ContainerContent>
+			<Formulario
+				onSubmit={cadastrarOuEditarGestor}
+			>
+				<label>Email</label>
+				<InputFormulario
+					name="email"
+					type="email"
+					value={email}
+					onChange={e => setEmail(e.target.value)}
+				/>
 
-					<label>Login</label>
-					<InputFormulario
-						name="login"
-						type="text"
-						value={login}
-						onChange={e => setLogin(e.target.value)}
+				<label>Nome</label>
+				<InputFormulario
+					name="nome"
+					type="text"
+					value={nome}
+					onChange={e => setNome(e.target.value)}
+				/>
 
-					/>
+				<label>Login</label>
+				<InputFormulario
+					name="login"
+					type="text"
+					value={login}
+					onChange={e => setLogin(e.target.value)}
 
-					{isCreating ? (
-						<>
-							<label>Senha</label>
-							<InputFormulario
-								name="senha"
-								type="text"
-								value={senha}
-								onChange={e => setSenha(e.target.value)}
+				/>
 
-							/>
-						</>
-					): (
-						<>
-							<br />
-							<ButtonUpdateSenha
-							  type="button"
-								onClick={() => atualizarSenha()}
-							>
-								Atualizar Senha
-							</ButtonUpdateSenha>
-						</>
-					)}
+				{isCreating ? (
+					<>
+						<label>Senha</label>
+						<InputFormulario
+							name="senha"
+							type="text"
+							value={senha}
+							onChange={e => setSenha(e.target.value)}
 
-					<br />
-					<br />
+						/>
+					</>
+				): (
+					<>
+						<br />
+						<ButtonUpdateSenha
+							type="button"
+							onClick={() => atualizarSenha()}
+						>
+							Atualizar Senha
+						</ButtonUpdateSenha>
+					</>
+				)}
+
+				<br />
+				<br />
 
 
-				<ButtonEnviarFormulario>
-					{isCreating ? "Cadastrar": "Atualizar"}
-				</ButtonEnviarFormulario>
+			<ButtonEnviarFormulario>
+				{isCreating ? "Cadastrar": "Atualizar"}
+			</ButtonEnviarFormulario>
 
-				</Formulario>
-			</ContentContainer>
+			</Formulario>
+		</ContainerContent>
+			)}
+
 		</>
 	)
 }
