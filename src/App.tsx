@@ -15,6 +15,7 @@ import RotaFormulario from "./pages/Rota/formulario/index.tsx"
 import Veiculos from "./pages/Veiculo/lista/index.tsx"
 import FormularioVeiculo from "./pages/Veiculo/formulario/FormularioVeiculo.tsx"
 import Rotas from "./pages/Rota/lista/index.tsx"
+import { Home } from "./pages/Home/Home.tsx"
 
 function App() {
 
@@ -29,7 +30,7 @@ function App() {
 				{isAuthenticated && <Header />}
 					<Route element={<ProtectedRoute />}>
 						<Route element={<HeaderRoutes />}>
-
+							<Route path="/" element={<Home />} />
 							<Route path="/transportadora" element={<Transportadora />} />
 							<Route path="/transportadora/:id/editar" element={<FormularioTransportadora />} />
 							<Route path="/transportadora/cadastrar" element={<FormularioTransportadora />} />
