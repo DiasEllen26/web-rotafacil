@@ -6,7 +6,8 @@ import { getAllByCollection } from "../../../utils/firebase/getAllByCollection";
 import { deleteById } from "../../../utils/firebase/deleteById";
 import { Loading } from "../../../components/Loading/Loading";
 import Swal from "sweetalert2";
-import { ContainerContent } from "../formulario/style";
+import Lista from "../../../components/Lista";
+import { ButtonCadastrar, ContainerButton } from "../../../components/Lista/style";
 
 
 
@@ -46,50 +47,24 @@ export function Transportadora(){
 		getAllTransportadoras()
 	}, [])
 
+	const renderTransportadoraFields = (transportadora: ITrasnportadora) => [
+    transportadora.nome,
+    transportadora.endereco,
+    transportadora.telefone,
+    transportadora.sitio,
+    transportadora.email,
+  ];
+
+
 	return (
 		<>
 			<Loading visible={isLoading} />
-				<ContainerContent>
-
-					{transportadoras?.map( transportadora => (
-						<div key={transportadora.id}>
-							<h1>
-								{transportadora.nome}
-							</h1>
-							<h2>
-								{transportadora.endereco}
-							</h2>
-							<h2>
-								{transportadora.telefone}
-							</h2>
-							<h2>
-								{transportadora.sitio}
-							</h2>
-							<h2>
-								{transportadora.sitio}
-							</h2>
-							<h2>
-								{transportadora.email}
-							</h2>
-
-							<div>
-								<Link to={`${transportadora.id}/editar/`}>
-									<FaPencil />
-								</Link>
-							</div>
-
-							<div>
-								<ButtonDeletar
-									onClick={()=> handleDelete(transportadora.id)}
-								>
-									<FaRegTrashCan />
-								</ButtonDeletar>
-							</div>
-
-						</div>
-					))}
-				</ContainerContent>
-
+				<Lista
+					items={transportadoras || []}
+					onDelete={handleDelete}
+					editPath="editar"
+					renderFields={renderTransportadoraFields}
+				/>
 				<ContainerButton>
 					<ButtonCadastrar
 							onClick={() => {
@@ -99,9 +74,6 @@ export function Transportadora(){
 							Cadastrar
 					</ButtonCadastrar>
 				</ContainerButton>
-
-
-
 		</>
 	)
 }
