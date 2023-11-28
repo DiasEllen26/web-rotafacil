@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom"
 import { Home } from "./pages/Home"
-import { Rotas } from "./pages/Rotas"
 import {  GlobalStyle } from "./styles/global"
 import Header from "./components/Navbar"
 import { FormTest } from "./pages/FormTest"
@@ -10,6 +9,11 @@ import { Transportadora } from "./pages/Trasnportadora/lista/Transportadora"
 import { FormularioTransportadora } from "./pages/Trasnportadora/formulario/FormularioTransportadora"
 import { Gestor } from "./pages/Gestor/lista/Gestor"
 import { FormularioGestor } from "./pages/Gestor/formulario/FormularioGestor"
+import Usuarios from "./pages/usuario/lista"
+import Rotas from "./pages/Rota/lista"
+import RotaFormulario from "./pages/Rota/formulario"
+import Veiculos from "./pages/Veiculo/lista"
+import FormularioVeiculo from "./pages/Veiculo/formulario/FormularioVeiculo"
 
 function App() {
 
@@ -30,7 +34,6 @@ function App() {
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/login" element={<Login />} />
-				<Route path="/rotas" element={<Rotas />} />
 				<Route path="/form" element={<FormTest />} />
 
 				<Route path="/transportadora" element={<Transportadora />} />
@@ -41,7 +44,16 @@ function App() {
 				<Route path="/gestor/cadastrar" element={<FormularioGestor />} />
 				<Route path="/gestor/:id/editar" element={<FormularioGestor/>} />
 
+				<Route path="/usuario" element={<Usuarios />} />
 
+				<Route path="/rota" element={<Rotas />} />
+				<Route path="/rota/cadastrar" element={<RotaFormulario />} />
+				<Route path="/rota/:id/editar" element={<RotaFormulario />} />
+
+
+				<Route path="/veiculo" element={<Veiculos />} />
+				<Route path="/veiculo/cadastrar" element={<FormularioVeiculo />} />
+				<Route path="/veiculo/:id/editar" element={<FormularioVeiculo />} />
 			</Routes>
 		{/* </ContentWrapper> */}
     </>
