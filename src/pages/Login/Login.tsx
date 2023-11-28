@@ -1,101 +1,82 @@
-
+import logo from "../../imagens/logo.png";
 import { FormEvent, useRef } from 'react';
-import styled from 'styled-components';
+import { ContainerContent, LoginButton, LoginContainer, LoginForm, LoginInput, Logo } from './style';
+import { findByAttribute } from "../../utils/firebase/findByAttribute";
+import { IGestor } from "../../types/IGestor";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
-const LoginContainer = styled.div`
-    display: flex;
-    height: 100vh;
-`;
 
-const LeftSection = styled.div`
-    flex: 1;
-    position: relative;
-`;
-
-const BackgroundImage = styled.img`
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-`;
-
-const RightSection = styled.div`
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-`;
-
-const LoginLogo = styled.img`
-    width: 150px;
-    height: 150px;
-    position: absolute;
-    top: 60px;
-`;
-
-const FormContainer = styled.form`
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-top: 50px;
-    width: 300px;
-`;
 export function Login() {
 	const usernameRef = useRef<HTMLInputElement>(null);
 	const passwordRef = useRef<HTMLInputElement>(null);
 
-	const handleLogin = (event: FormEvent<HTMLFormElement>) => {
-			event.preventDefault();
+	const { login } = useAuth()
 
-			if (usernameRef.current && passwordRef.current) {
-					const login = usernameRef.current.value;
-					const senha = passwordRef.current.value;
+	const navigate = useNavigate()
+
+	async function criptografarSenha(senha: string) {
+		const encoder = new TextEncoder();
+		const data = encoder.encode(senha);
+
+		const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+		const hashArray = Array.from(new Uint8Array(hashBuffer));
+		const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+
+		return hashHex;
+	}
 
 
+	const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+
+		if (usernameRef.current && passwordRef.current) {
+			const loginInput = usernameRef.current.value;
+			const senhaInput = passwordRef.current.value;
+
+			const user = await findByAttribute('gestor', "login", loginInput) as IGestor | null;
+
+			if(!user){
+				Swal.fire({
+					icon: "error",
+					title: "Erro",
+					text: "Usuario ou senha não inválidos,"
+				});
+				return
 			}
-		};
-    return (
-        <div>
-            <LoginContainer>
 
-						<LeftSection>
-                <BackgroundImage src="../src/images/img-login.png" alt="Imagem" />
-            </LeftSection>
+			const senhaCrypted = await criptografarSenha(senhaInput)
 
-						<RightSection>
-                <LoginLogo src="../src/images/logo-login.png" alt="Logo" />
+			if(senhaCrypted !== user.senha){
+				Swal.fire({
+					icon: "error",
+					title: "Erro",
+					text: "Usuario ou senha não inválidos,"
+				});
+				return
+			}
 
-                <h2>Login</h2>
-                <FormContainer onSubmit={handleLogin}>
-                    <div className='users'>
-                        <label htmlFor="username">Username:</label>
-                        <input
-                            name='login'
-                            type="text"
-                            id="username"
-														ref={usernameRef}
+			login()
+			navigate('/gestor')
+		}
+	};
 
-                        />
-                    </div>
-                    <div className='users'>
-                        <label htmlFor="password">Password:</label>
-                        <input
-                            name='senha'
-                            type="password"
-                            id="password"
-														ref={passwordRef}
-                        />
-                    </div>
-                    <button type="submit" >
-                        Login
-                    </button>
-                </FormContainer>
-								</RightSection>
-            </LoginContainer>
-        </div>
-    );
+	return (
+		<>
+		<LoginContainer>
+      <ContainerContent>
+				<LoginForm onSubmit={handleLogin}>
+					<Logo src={logo} />
+					<LoginInput ref={usernameRef} type="text" name="login" placeholder="login" />
+					<LoginInput ref={passwordRef} type="password" name="senha" placeholder="Senha" />
+					<LoginButton type="submit">Entrar</LoginButton>
+				</LoginForm>
+			</ContainerContent>
+    </LoginContainer>
+
+		</>
+  );
 }
 
 export default Login;
