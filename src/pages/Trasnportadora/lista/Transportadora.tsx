@@ -1,94 +1,70 @@
+// pages/Trasnportadora/lista/Transportadora.tsx
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ButtonCadastrar, ButtonDeletar, ContainerButton, ContainerContent } from "./style";
-import { FaPencil, FaRegTrashCan } from "react-icons/fa6";
-import { useEffect, useState } from "react";
-import { type ITrasnportadora } from "../../../types/ITrasnportadora";
+import Lista from "../../../components/Lista/index";
+import { ITrasnportadora } from "../../../types/ITrasnportadora";
 import { getAllByCollection } from "../../../utils/firebase/getAllByCollection";
-import { Link } from "react-router-dom";
 import { deleteById } from "../../../utils/firebase/deleteById";
+import {
+  ButtonCadastrar,
+  ContainerButton,
+} from "../../../components/Lista/style"; 
 
+function Transportadora() {
+  const navigate = useNavigate();
+  const [transportadoras, setTransportadoras] = useState<ITrasnportadora[]>();
 
+  async function getAllTransportadoras() {
+    const data = (await getAllByCollection(
+      "transportadora"
+    )) as unknown as ITrasnportadora[];
+    setTransportadoras(data);
+  }
 
-export function Transportadora(){
-	const navigate = useNavigate()
+  async function handleDelete(id: string) {
+    try {
+      await deleteById("transportadora", id);
+      const newTransportadoras = transportadoras?.filter(
+        (transportadora) => transportadora.id !== id
+      );
+      setTransportadoras(newTransportadoras);
+    } catch (error) {
+      window.alert(error);
+    }
+  }
 
-	const [transportadoras, setTransportadoras] = useState<ITrasnportadora[]>()
+  useEffect(() => {
+    getAllTransportadoras();
+  }, []);
 
-	async function getAllTransportadoras(){
-		const data = await getAllByCollection("transportadora") as unknown as ITrasnportadora[]
-		setTransportadoras(data);
-	}
+  const renderTransportadoraFields = (transportadora: ITrasnportadora) => [
+    transportadora.nome,
+    transportadora.endereco,
+    transportadora.telefone,
+    transportadora.sitio,
+    transportadora.email,
+  ];
 
-	async function handleDelete(id: string){
-    try{
-			await deleteById("transportadora", id);
-			const newTransportadoras = transportadoras?.filter(transportadora => transportadora.id !== id);
-			setTransportadoras(newTransportadoras);
-		}catch(error){
-			window.alert(error);
-		}
-	}
+  return (
+    <>
+      <Lista
+        items={transportadoras || []}
+        onDelete={handleDelete}
+        editPath="editar"
+        renderFields={renderTransportadoraFields}
+      />
 
-
-	useEffect(() => {
-		getAllTransportadoras()
-	}, [])
-
-	return (
-		<>
-				<ContainerContent>
-
-					{transportadoras?.map( transportadora => (
-						<div key={transportadora.id}>
-							<h1>
-								{transportadora.nome}
-							</h1>
-							<h2>
-								{transportadora.endereco}
-							</h2>
-							<h2>
-								{transportadora.telefone}
-							</h2>
-							<h2>
-								{transportadora.sitio}
-							</h2>
-							<h2>
-								{transportadora.sitio}
-							</h2>
-							<h2>
-								{transportadora.email}
-							</h2>
-
-							<div>
-								<Link to={`${transportadora.id}/editar/`}>
-									<FaPencil />
-								</Link>
-							</div>
-
-							<div>
-								<ButtonDeletar
-									onClick={()=> handleDelete(transportadora.id)}
-								>
-									<FaRegTrashCan />
-								</ButtonDeletar>
-							</div>
-
-						</div>
-					))}
-				</ContainerContent>
-
-				<ContainerButton>
-					<ButtonCadastrar
-							onClick={() => {
-								navigate('/transportadora/cadastrar')
-							}}
-						>
-							Cadastrar
-					</ButtonCadastrar>
-				</ContainerButton>
-
-
-
-		</>
-	)
+      <ContainerButton>
+        <ButtonCadastrar
+          onClick={() => {
+            navigate("/transportadora/cadastrar");
+          }}
+        >
+          Cadastrar
+        </ButtonCadastrar>
+      </ContainerButton>
+    </>
+  );
 }
+
+export default Transportadora;
