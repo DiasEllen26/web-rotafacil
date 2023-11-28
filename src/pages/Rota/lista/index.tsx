@@ -28,7 +28,6 @@ interface IRotaResponse {
 
 }
 
-
 export default function Rotas(){
 
 	const navigate = useNavigate()

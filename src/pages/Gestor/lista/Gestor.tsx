@@ -1,93 +1,68 @@
-import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { type IGestor } from "../../../types/IGestor";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { IGestor } from "../../../types/IGestor";
 import { getAllByCollection } from "../../../utils/firebase/getAllByCollection";
-import {  ButtonCadastrar, ButtonDeletar, ContainerButton, ContentContainer, ListContainer } from "./style";
-import { Link } from "react-router-dom";
-import { FaPencil, FaRegTrashCan } from "react-icons/fa6";
 import { deleteById } from "../../../utils/firebase/deleteById";
 import { Loading } from "../../../components/Loading/Loading";
-import Swal from "sweetalert2";
+import Lista from "../../../components/Lista";
+import {
+  StyledButtonContainer as GestorButtonContainer,
+  StyledCadastrarButton as GestorCadastrarButton,
+} from "../../../components/Lista/style";
 
-export function Gestor(){
+export function Gestor() {
+  const navigate = useNavigate();
+  const [gestores, setGestores] = useState<IGestor[]>();
+  const [isLoading, setLoading] = useState<boolean>(true);
 
-	const navigate = useNavigate()
+  async function getAllGestores() {
+    const data = (await getAllByCollection("gestor")) as unknown as IGestor[];
+    setGestores(data);
+    setLoading(false);
+  }
 
-	const [gestores, setGestores] = useState<IGestor[]>();
+  useEffect(() => {
+    getAllGestores();
+  }, []);
 
-	const [isLoading, setLoading] = useState<boolean>(true);
+  async function handleDelete(id: string) {
+    try {
+      setLoading(true);
+      await deleteById("gestor", id);
+      const newGestores = gestores?.filter((gestor) => gestor.id !== id);
+      setGestores(newGestores);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  }
 
-	async function getAllGestores() {
-		const data = await getAllByCollection("gestor") as unknown as IGestor[];
-		setGestores(data);
-		setLoading(false);
-	}
+  const renderGestorFields = (gestor: IGestor) => [gestor.nome, gestor.email];
 
-	useEffect(()=>{
-		getAllGestores();
-	},[])
-
-	async function handleDelete(id: string){
-		try{
-			setLoading(true)
-			await deleteById("gestor", id);
-			const newGestores = gestores?.filter(gestor => gestor.id !== id);
-			setGestores(newGestores);
-			setLoading(false)
-		}catch(error){
-			Swal.fire({
-				icon: "error",
-				title: "Erro",
-				text: String(error)
-			});
-		}
-	}
-
-	return (
-		<>
-			{isLoading ?(<Loading visible={isLoading} />): (
-				<>
-					<ContentContainer>
-					<ListContainer>
-						{gestores?.map(gestor => (
-							<div
-								key={gestor.id}
-							>
-								<h1>{gestor.nome}</h1>
-								<h2>{gestor.email}</h2>
-								<div>
-									<Link to={`${gestor.id}/editar/`}>
-										<FaPencil />
-									</Link>
-								</div>
-								<div>
-									<ButtonDeletar
-										onClick={()=> handleDelete(gestor.id)}
-									>
-										<FaRegTrashCan />
-									</ButtonDeletar>
-								</div>
-							</div>
-						))}
-
-					</ListContainer>
-				</ContentContainer>
-
-				<ContainerButton>
-					<ButtonCadastrar
-						onClick={() => {
-							navigate('/gestor/cadastrar');
-						}}
-					>
-						Cadastrar
-					</ButtonCadastrar>
-				</ContainerButton>
-				</>
-			) }
-
-
-
-
-		</>
-	)
+  return (
+    <>
+      {isLoading ? (
+        <Loading visible={isLoading} />
+      ) : (
+        <>
+          <Lista
+            items={gestores || []}
+            onDelete={handleDelete}
+            editPath="editar"
+            renderFields={renderGestorFields}
+          />
+          <GestorButtonContainer>
+            <GestorCadastrarButton
+              onClick={() => {
+                navigate("/gestor/cadastrar");
+              }}
+            >
+              Cadastrar
+            </GestorCadastrarButton>
+          </GestorButtonContainer>
+        </>
+      )}
+    </>
+  );
 }

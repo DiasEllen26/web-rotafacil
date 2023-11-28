@@ -1,41 +1,68 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IUsuario } from "../../../types/IUsuario";
 import { getAllByCollection } from "../../../utils/firebase/getAllByCollection";
-import { ContentContainer, ListContainer } from "./style";
+import { deleteById } from "../../../utils/firebase/deleteById";
+import { useNavigate } from "react-router-dom";
 import { Loading } from "../../../components/Loading/Loading";
+import Lista from "../../../components/Lista";
+import {
+  StyledButtonContainer as UsuariosButtonContainer,
+  StyledCadastrarButton as UsuariosCadastrarButton,
+} from "../../../components/Lista/style";
 
-export default function Usuarios(){
+export default function Usuarios() {
+  const navigate = useNavigate();
+  const [usuarios, setUsuarios] = useState<IUsuario[]>();
+  const [isLoading, setLoading] = useState<boolean>(true);
 
-	const [usuarios, setUsuarios] = useState<IUsuario[]>();
+  async function getAllUsuarios() {
+    const data = (await getAllByCollection("usuario")) as unknown as IUsuario[];
+    setUsuarios(data);
+    setLoading(false);
+  }
 
-	const [isLoading, setLoading] = useState<boolean>(true);
+  useEffect(() => {
+    getAllUsuarios();
+  }, []);
 
+  const handleDelete = async (id: string) => {
+    try {
+      setLoading(true);
+      await deleteById("usuario", id);
+      const newUsuarios = usuarios?.filter((usuario) => usuario.id !== id);
+      setUsuarios(newUsuarios);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
 
-	async function getAllUsuarios(){
-		const data = await getAllByCollection("usuario") as unknown as IUsuario[];
-		setUsuarios(data);
-		setLoading(false)
-	}
+  const renderUsuarioFields = (usuario: IUsuario) => [
+    usuario.nome,
+    usuario.email,
+    usuario.telefone,
+    usuario.endereco,
+  ];
 
-	useEffect(()=>{
-		getAllUsuarios()
-	},[])
-
-	return(
-		<>
-			<Loading visible={isLoading} />
-			<ContentContainer>
-				<ListContainer>
-					{usuarios?.map(usuario => (
-						<div key={usuario.id}>
-							<h1>{usuario.nome}</h1>
-							<h2>{usuario.email}</h2>
-							<h2>{usuario.telefone}</h2>
-							<h2>{usuario.endereco}</h2>
-						</div>
-					))}
-				</ListContainer>
-			</ContentContainer>
-		</>
-	)
+  return (
+    <>
+      <Loading visible={isLoading} />
+      <Lista
+        items={usuarios || []}
+        onDelete={handleDelete}
+        editPath="editar"
+        renderFields={renderUsuarioFields}
+      />
+      <UsuariosButtonContainer>
+        <UsuariosCadastrarButton
+          onClick={() => {
+            navigate("/usuario/cadastrar");
+          }}
+        >
+          Cadastrar
+        </UsuariosCadastrarButton>
+      </UsuariosButtonContainer>
+    </>
+  );
 }
