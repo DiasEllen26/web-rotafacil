@@ -1,10 +1,11 @@
-import { FormEvent, useEffect, useState } from "react";
-import { ButtonEnviarFormulario, ContainerContent, Formulario, InputFormulario } from "./style";
+import React, { FormEvent, useEffect, useState } from "react";
+import { ButtonEnviarFormulario, ContainerContent, Formulario, InputFormulario } from "../../../components/Formulario/index";
 import { createDoc } from "../../../utils/firebase/createDoc";
 import { useNavigate, useParams } from "react-router-dom";
 import { findById } from "../../../utils/firebase/findById";
 import { ITrasnportadora } from "../../../types/ITrasnportadora";
 import { updateDocById } from "../../../utils/firebase/updateDocById";
+
 
 export function FormularioTransportadora(){
 
