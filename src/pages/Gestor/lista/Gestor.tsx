@@ -11,7 +11,6 @@ export function Gestor(){
 
 	const navigate = useNavigate()
 
-
 	const [gestores, setGestores] = useState<IGestor[]>();
 
 	async function getAllGestores() {
