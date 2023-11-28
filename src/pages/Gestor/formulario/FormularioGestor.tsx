@@ -4,8 +4,9 @@ import { findById } from "../../../utils/firebase/findById";
 import { IGestor } from "../../../types/IGestor";
 import { createDoc } from "../../../utils/firebase/createDoc";
 import { updateDocById } from "../../../utils/firebase/updateDocById";
-import { ButtonEnviarFormulario, ButtonUpdateSenha, ContentContainer, Formulario, InputFormulario } from "./style";
 import Swal from "sweetalert2";
+import { ButtonEnviarFormulario, ContainerContent, Formulario, InputFormulario } from "../../../components/Formulario";
+import { ButtonUpdateSenha } from "./style";
 
 
 export function FormularioGestor(){
@@ -124,7 +125,7 @@ export function FormularioGestor(){
 
 	return(
 		<>
-			<ContentContainer>
+			<ContainerContent>
 				<Formulario
 					onSubmit={cadastrarOuEditarGestor}
 				>
@@ -185,7 +186,7 @@ export function FormularioGestor(){
 				</ButtonEnviarFormulario>
 
 				</Formulario>
-			</ContentContainer>
+			</ContainerContent>
 		</>
 	)
 }

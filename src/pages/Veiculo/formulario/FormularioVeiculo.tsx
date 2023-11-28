@@ -3,11 +3,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { IRotas } from "../../../types/IRotas";
 import { getAllByCollection } from "../../../utils/firebase/getAllByCollection";
 import { findById } from "../../../utils/firebase/findById";
-import { ButtonEnviarFormulario, ContentContainer, Formulario, InputFormulario, SelectRota } from "./style";
 import Swal from "sweetalert2";
 import { FindReference } from "../../../utils/firebase/FindReference";
 import { createDoc } from "../../../utils/firebase/createDoc";
 import { updateDocById } from "../../../utils/firebase/updateDocById";
+import { ButtonEnviarFormulario, ContainerContent, Formulario, InputFormulario } from "../../../components/Formulario";
+import { SelectRota } from "./style";
 
 interface IVeiculoResponse {
 	id: string;
@@ -107,7 +108,7 @@ export default function FormularioVeiculo(){
 
 	return(
 		<>
-			<ContentContainer>
+			<ContainerContent>
 				<Formulario onSubmit={cadastrarOuEditarVeiculo}>
 					<label>Descrição</label>
 					<InputFormulario
@@ -162,7 +163,7 @@ export default function FormularioVeiculo(){
 
 
 				</Formulario>
-			</ContentContainer>
+			</ContainerContent>
 
 		</>
 	)

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 export const ContainerContent = styled.div`
   max-width: 600px;
-  margin: 20px auto 0; 
+  margin: 20px auto 0;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
@@ -36,7 +36,7 @@ export const InputFormulario = styled.input`
 `;
 
 export const ButtonEnviarFormulario = styled.button`
-  background-color: #4caf50;
+  background-color: #199B91;
   color: white;
   padding: 12px;
   border: none;

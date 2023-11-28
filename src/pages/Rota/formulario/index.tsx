@@ -3,11 +3,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { findById } from "../../../utils/firebase/findById";
 import { ITrasnportadora } from "../../../types/ITrasnportadora";
 import { getAllByCollection } from "../../../utils/firebase/getAllByCollection";
-import { ButtonEnviarFormulario, ContentContainer, Formulario, InputFormulario, SelectTransportadora } from "./style";
 import Swal from "sweetalert2";
 import { createDoc } from "../../../utils/firebase/createDoc";
 import { FindReference } from "../../../utils/firebase/FindReference";
 import { updateDocById } from "../../../utils/firebase/updateDocById";
+import { ButtonEnviarFormulario, ContainerContent, Formulario, InputFormulario } from "../../../components/Formulario";
+import { SelectTransportadora } from "./style";
 
 interface IRotaResponse {
 	id: string;
@@ -127,7 +128,7 @@ export default function RotaFormulario(){
 
 	return(
 		<>
-		<ContentContainer>
+		<ContainerContent>
 			<Formulario onSubmit={cadastrarOuEditarRota}>
 				<label>Descrição</label>
 				<InputFormulario
@@ -188,7 +189,7 @@ export default function RotaFormulario(){
 				</ButtonEnviarFormulario>
 
 			</Formulario>
-		</ContentContainer>
+		</ContainerContent>
 
 		</>
 	)
