@@ -7,6 +7,7 @@ import { IRotas } from "../../../types/IRotas";
 import { Link } from "react-router-dom";
 import { FaPencil, FaRegTrashCan } from "react-icons/fa6";
 import { Loading } from "../../../components/Loading/Loading";
+import Swal from "sweetalert2";
 
 interface IVeiculoResponse {
 	id: string;
@@ -50,7 +51,11 @@ export default function Veiculos(){
 			setVeiculos(newVeiculos);
 			setLoading(false)
 		}catch(error){
-			window.alert(error);
+			Swal.fire({
+				icon: "error",
+				title: "Erro",
+				text: String(error)
+			});
 		}
 	}
 

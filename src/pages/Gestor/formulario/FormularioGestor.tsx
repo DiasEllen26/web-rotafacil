@@ -59,7 +59,11 @@ export function FormularioGestor(){
 		event.preventDefault();
 
 		if(!email || !nome || !login || !senha){
-			window.alert("Campos obrigatorios faltando")
+			Swal.fire({
+				icon: "error",
+				title: "Erro",
+				text: "Campos obrigatórios faltando."
+			});
 			return
 		}
 

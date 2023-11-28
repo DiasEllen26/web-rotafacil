@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { FaPencil, FaRegTrashCan } from "react-icons/fa6";
 import { deleteById } from "../../../utils/firebase/deleteById";
 import { Loading } from "../../../components/Loading/Loading";
+import Swal from "sweetalert2";
 
 export function Gestor(){
 
@@ -34,7 +35,11 @@ export function Gestor(){
 			setGestores(newGestores);
 			setLoading(false)
 		}catch(error){
-			window.alert(error);
+			Swal.fire({
+				icon: "error",
+				title: "Erro",
+				text: String(error)
+			});
 		}
 	}
 

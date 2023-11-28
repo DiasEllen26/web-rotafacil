@@ -7,6 +7,7 @@ import { getAllByCollection } from "../../../utils/firebase/getAllByCollection";
 import { Link } from "react-router-dom";
 import { deleteById } from "../../../utils/firebase/deleteById";
 import { Loading } from "../../../components/Loading/Loading";
+import Swal from "sweetalert2";
 
 
 
@@ -32,7 +33,11 @@ export function Transportadora(){
 			setTransportadoras(newTransportadoras);
 			setLoading(false)
 		}catch(error){
-			window.alert(error);
+			Swal.fire({
+				icon: "error",
+				title: "Erro",
+				text: String(error)
+			});
 		}
 	}
 

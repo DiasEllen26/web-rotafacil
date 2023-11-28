@@ -6,6 +6,7 @@ import { findById } from "../../../utils/firebase/findById";
 import { ITrasnportadora } from "../../../types/ITrasnportadora";
 import { updateDocById } from "../../../utils/firebase/updateDocById";
 import { Loading } from "../../../components/Loading/Loading";
+import Swal from "sweetalert2";
 
 
 export function FormularioTransportadora(){
@@ -53,7 +54,11 @@ export function FormularioTransportadora(){
 		event.preventDefault();
 
 		if(!email || !sitio || !telefone || !nome || !endereco){
-			window.alert("Campos obrigatorios faltando.")
+			Swal.fire({
+				icon: "error",
+				title: "Erro",
+				text: "Necessário preencher todos os campos."
+			});
 			return
 		}
 
