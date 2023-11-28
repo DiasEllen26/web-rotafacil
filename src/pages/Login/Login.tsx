@@ -50,8 +50,8 @@ export function Login() {
 			event.preventDefault();
 
 			if (usernameRef.current && passwordRef.current) {
-					const login = usernameRef.current.value;
-					const senha = passwordRef.current.value;
+					// const login = usernameRef.current.value;
+					// const senha = passwordRef.current.value;
 
 
 			}

@@ -1,5 +1,3 @@
-import { addDoc, collection, getDocs } from "firebase/firestore"
-import { DataBase } from "../config/firebase/connection"
 import { FormEvent, useEffect, useState } from "react"
 import { getAllByCollection } from "../utils/firebase/getAllByCollection";
 import { createDoc } from "../utils/firebase/createDoc";
@@ -13,7 +11,6 @@ interface IGestor {
 }
 
 export function FormTest(){
-	const userCollectionRef = collection(DataBase, 'gestor')
 
 	const [users, setUsers ] = useState<IGestor[]>()
 	const getUsers = async ()=> {

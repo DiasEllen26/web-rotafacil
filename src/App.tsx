@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom"
 import { Home } from "./pages/Home"
 import { Rotas } from "./pages/Rotas"
-import { ContentWrapper, GlobalStyle } from "./styles/global"
+import {  GlobalStyle } from "./styles/global"
 import Header from "./components/Navbar"
 import { FormTest } from "./pages/FormTest"
 import Login from "./pages/Login/Login"
