@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { IVeiculo } from "../../../types/IVeiculo";
 import { getAllByCollection } from "../../../utils/firebase/getAllByCollection";
 import { deleteById } from "../../../utils/firebase/deleteById";
-import { ContentContainer, ListContainer } from "./style";
+import { ButtonCadastrar, ButtonDeletar, ContainerButton, ContentContainer, ListContainer } from "./style";
 import { IRotas } from "../../../types/IRotas";
+import { Link } from "react-router-dom";
+import { FaPencil, FaRegTrashCan } from "react-icons/fa6";
 
 export default function Veiculos(){
 
@@ -48,15 +50,37 @@ export default function Veiculos(){
 						{rotas
 							?.filter(rota => rota.id === veiculo.id_rota.id)
 							.map( rota => (
-								<h2 key={rota.id}>{rota.localPartida + " " + rota.destino}</h2>
+								<h2 key={rota.id}>{rota.localPartida + " A " + rota.destino}</h2>
 							))
 						}
 						<h2>{"Placa: " + veiculo.placa}</h2>
 						<h2>{"Assentos: " + veiculo.assento}</h2>
+						<div>
+								<Link to={`${veiculo.id}/editar/`}>
+									<FaPencil />
+								</Link>
+							</div>
+							<div>
+								<ButtonDeletar
+									onClick={()=> handleDelete(veiculo.id)}
+								>
+									<FaRegTrashCan />
+								</ButtonDeletar>
+							</div>
 					</div>
 				))}
 			</ListContainer>
 		</ContentContainer>
+
+		<ContainerButton>
+			<ButtonCadastrar
+				onClick={() => {
+					navigate('/veiculo/cadastrar');
+				}}
+			>
+				Cadastrar
+			</ButtonCadastrar>
+		</ContainerButton>
 
 		</>
 	)
