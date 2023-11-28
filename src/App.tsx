@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import { Home } from "./pages/Home"
 import {  GlobalStyle } from "./styles/global"
 import Header from "./components/Navbar"
 import Login from "./pages/Login/Login"
@@ -30,7 +29,6 @@ function App() {
 				{isAuthenticated && <Header />}
 					<Route element={<ProtectedRoute />}>
 						<Route element={<HeaderRoutes />}>
-							<Route path="/" element={<Home />} />
 
 							<Route path="/transportadora" element={<Transportadora />} />
 							<Route path="/transportadora/:id/editar" element={<FormularioTransportadora />} />

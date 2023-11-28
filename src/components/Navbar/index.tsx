@@ -20,23 +20,12 @@ const Header: React.FC = () => {
             </NavbarItemInner>
           </NavbarLogo>
 
-          {/* Home */}
-          <NavbarItem className="navbar-item flexbox-left">
-            <NavbarItemInner to="/home" className="navbar-item-inner flexbox-left">
-              {/* Ícone */}
-              <NavbarItemInnerIconWrapper className="navbar-item-inner-icon-wrapper flexbox">
-                <FaHome />
-              </NavbarItemInnerIconWrapper>
-              <LinkText className="link-text">Home</LinkText>
-            </NavbarItemInner>
-          </NavbarItem>
-
           {/*Transportadora */}
           <NavbarItem className="navbar-item flexbox-left">
             <NavbarItemInner to="/transportadora" className="navbar-item-inner flexbox-left">
               {/* Icon */}
               <NavbarItemInnerIconWrapper className="navbar-item-inner-icon-wrapper flexbox">
-                <IoBusiness />  
+                <IoBusiness />
               </NavbarItemInnerIconWrapper>
               <LinkText className="link-text">Transportadora</LinkText>
             </NavbarItemInner>
