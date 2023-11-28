@@ -5,10 +5,10 @@ import { IRotas } from "../../../types/IRotas";
 import { ITrasnportadora } from "../../../types/ITrasnportadora";
 import { getAllByCollection } from "../../../utils/firebase/getAllByCollection";
 import { ButtonEnviarFormulario, ContentContainer, Formulario, InputFormulario, SelectTransportadora } from "./style";
-import formatarDataBrasileira from "../../../utils/dates/FormatarDataBrasileira";
 import Swal from "sweetalert2";
 import { createDoc } from "../../../utils/firebase/createDoc";
 import { FindReference } from "../../../utils/firebase/FindReference";
+import { updateDocById } from "../../../utils/firebase/updateDocById";
 
 export default function RotaFormulario(){
 
@@ -52,12 +52,14 @@ export default function RotaFormulario(){
 
 		// const transportadoraData = transportadoras?.find( transportadora => transportadora.id === id)
 
-		setTransportadoraSelected(id_transportadora)
+		console.log(id_transportadora)
+
+		setTransportadoraSelected(id_transportadora.id)
 		setDescricao(descricao);
 		setLocalPartida(localPartida);
 		setDestino(destino);
-		setChegada(chegada);
-		setSaida(saida)
+		setChegada(new Date(chegada.seconds * 1000));
+		setSaida(new Date(saida.seconds * 1000))
 	}
 
 	const handleSelecaoTransportadora = (event: any) => {
@@ -77,8 +79,6 @@ export default function RotaFormulario(){
 		}
 
 		if(isCreating){
-			console.log(transportadoraSelected)
-
 			const data = {
 				descricao,
 				localPartida,
@@ -91,6 +91,23 @@ export default function RotaFormulario(){
 			navigate('/rota')
 			return
 		}
+
+		if(!id){
+			return
+		}
+
+		const data = {
+			descricao,
+			localPartida,
+			destino,
+			saida,
+			chegada,
+			id_transportadora: await FindReference("transportadora", transportadoraSelected)
+		}
+
+		await updateDocById('rota',id,data);
+		navigate('/rota')
+		return
 	}
 
 	return(
