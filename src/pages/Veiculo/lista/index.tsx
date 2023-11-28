@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { IVeiculo } from "../../../types/IVeiculo";
 import { getAllByCollection } from "../../../utils/firebase/getAllByCollection";
 import { deleteById } from "../../../utils/firebase/deleteById";
 import { ButtonCadastrar, ButtonDeletar, ContainerButton, ContentContainer, ListContainer } from "./style";
@@ -8,16 +7,26 @@ import { IRotas } from "../../../types/IRotas";
 import { Link } from "react-router-dom";
 import { FaPencil, FaRegTrashCan } from "react-icons/fa6";
 
+interface IVeiculoResponse {
+	id: string;
+	descricao: string;
+	assento: number;
+	placa: string;
+	id_rota: {
+		id: string
+	}
+}
+
 export default function Veiculos(){
 
 	const navigate = useNavigate()
 
-	const [veiculos, setVeiculos] = useState<IVeiculo[]>();
+	const [veiculos, setVeiculos] = useState<IVeiculoResponse[]>();
 	const [rotas, setRotas] = useState<IRotas[]>();
 
 	async function getAllVeiculos() {
 		const [data, rotaData] = await Promise.all([
-			getAllByCollection("veiculo") as unknown as IVeiculo[],
+			getAllByCollection("veiculo") as unknown as IVeiculoResponse[],
 			getAllByCollection('rota') as unknown as IRotas[]
 		])
 		console.log(data)

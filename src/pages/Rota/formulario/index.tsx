@@ -1,7 +1,6 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { findById } from "../../../utils/firebase/findById";
-import { IRotas } from "../../../types/IRotas";
 import { ITrasnportadora } from "../../../types/ITrasnportadora";
 import { getAllByCollection } from "../../../utils/firebase/getAllByCollection";
 import { ButtonEnviarFormulario, ContentContainer, Formulario, InputFormulario, SelectTransportadora } from "./style";
@@ -10,6 +9,23 @@ import { createDoc } from "../../../utils/firebase/createDoc";
 import { FindReference } from "../../../utils/firebase/FindReference";
 import { updateDocById } from "../../../utils/firebase/updateDocById";
 
+interface IRotaResponse {
+	id: string;
+	id_transportadora: {
+		id: string
+	};
+	descricao: string;
+	localPartida: string;
+	destino: string;
+	chegada: {
+		seconds: number
+	};
+	saida: {
+		seconds: number
+	};
+
+}
+
 export default function RotaFormulario(){
 
 
@@ -17,7 +33,6 @@ export default function RotaFormulario(){
 
 	const { id } = useParams();
 
-	const [transportadora, setTransportadora ] = useState<string>("");
 	const [descricao,  setDescricao] = useState<string>("");
 	const [localPartida, setLocalPartida ] = useState<string>("");
 	const [destino, setDestino] = useState<string>("");
@@ -48,7 +63,7 @@ export default function RotaFormulario(){
 	}
 
 	async function  definirRotaExistente(id: string){
-		const { chegada, descricao, destino, id_transportadora, localPartida, saida  } = await findById("rota",id) as unknown as IRotas;
+		const { chegada, descricao, destino, id_transportadora, localPartida, saida  } = await findById("rota",id) as unknown as IRotaResponse;
 
 		// const transportadoraData = transportadoras?.find( transportadora => transportadora.id === id)
 
@@ -139,14 +154,14 @@ export default function RotaFormulario(){
 					<InputFormulario
 						name="saida"
 						type="time"
-						value={saida.toLocaleTimeString('pr-br', { hour: 'numeric', minute: 'numeric', hour12: false })} // Formatar para o formato aceito por input type="time"
+						value={saida.toLocaleTimeString('pr-br', { hour: 'numeric', minute: 'numeric', hour12: false })}
   					onChange={e => setSaida(new Date(`2023-11-28T${e.target.value}:00`))}
 					/>
 					<label htmlFor="">Chegada</label>
 					<InputFormulario
 						name="chegada"
 						type="time"
-						value={chegada.toLocaleTimeString('pr-br', { hour: 'numeric', minute: 'numeric', hour12: false })} // Formatar para o formato aceito por input type="time"
+						value={chegada.toLocaleTimeString('pr-br', { hour: 'numeric', minute: 'numeric', hour12: false })}
   					onChange={e => setChegada(new Date(`2023-11-28T${e.target.value}:00`))}
 					/>
 

@@ -3,12 +3,21 @@ import { useNavigate, useParams } from "react-router-dom";
 import { IRotas } from "../../../types/IRotas";
 import { getAllByCollection } from "../../../utils/firebase/getAllByCollection";
 import { findById } from "../../../utils/firebase/findById";
-import { IVeiculo } from "../../../types/IVeiculo";
 import { ButtonEnviarFormulario, ContentContainer, Formulario, InputFormulario, SelectRota } from "./style";
 import Swal from "sweetalert2";
 import { FindReference } from "../../../utils/firebase/FindReference";
 import { createDoc } from "../../../utils/firebase/createDoc";
 import { updateDocById } from "../../../utils/firebase/updateDocById";
+
+interface IVeiculoResponse {
+	id: string;
+	descricao: string;
+	assento: number;
+	placa: string;
+	id_rota: {
+		id: string
+	}
+}
 
 export default function FormularioVeiculo(){
 
@@ -38,7 +47,7 @@ export default function FormularioVeiculo(){
 	},[])
 
 	async function definirVeiculoExistente(id: string){
-		const { assento, descricao, placa, id_rota} = await findById("veiculo", id) as IVeiculo;
+		const { assento, descricao, placa, id_rota} = await findById("veiculo", id) as IVeiculoResponse;
 
 		setDescricao(descricao);
 		setAssento(assento);
