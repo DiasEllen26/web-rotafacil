@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Await, useNavigate } from "react-router-dom";
 import { IRotas } from "../../../types/IRotas";
 import { getAllByCollection } from "../../../utils/firebase/getAllByCollection";
 import { deleteById } from "../../../utils/firebase/deleteById";
@@ -7,18 +7,23 @@ import { ButtonCadastrar, ButtonDeletar, ContainerButton, ContentContainer, List
 import formatarDataBrasileira from "../../../utils/dates/FormatarDataBrasileira";
 import { Link } from "react-router-dom";
 import { FaPencil, FaRegTrashCan } from "react-icons/fa6";
+import { ITrasnportadora } from "../../../types/ITrasnportadora";
 
 export default function Rotas(){
 
 	const navigate = useNavigate()
 
 	const [rotas, setRotas] = useState<IRotas[]>();
-
+	const [transportadoras, setTransportadoras] = useState<ITrasnportadora[]>();
 
 	async function getAllRotas() {
-		const data = await getAllByCollection('rota') as unknown as IRotas[];
-		console.log(data)
+		const [data, transportadoraData] = await Promise.all([
+			getAllByCollection('rota') as unknown as IRotas[],
+			getAllByCollection('transportadora') as unknown as ITrasnportadora[]
+		])
+
 		setRotas(data);
+		setTransportadoras(transportadoraData);
 	}
 
 	useEffect(()=>{
@@ -45,6 +50,11 @@ export default function Rotas(){
 							<h2>{rota.descricao}</h2>
 							<h2>{"Saida" + " " + formatarDataBrasileira(rota.saida)}</h2>
 							<h2>{"Cheagada" + " " +formatarDataBrasileira(rota.chegada)}</h2>
+							{transportadoras
+								?.filter((transportadora) => transportadora.id === rota.id_transportadora.id)
+								.map((matchingTransportadora) => (
+									<h2 key={matchingTransportadora.id}>{matchingTransportadora.nome}</h2>
+								))}
 							<div>
 								<Link to={`${rota.id}/editar/`}>
 									<FaPencil />
