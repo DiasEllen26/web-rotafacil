@@ -1,4 +1,4 @@
-**README - RotaFacil **
+**README - RotaFacil**
 
 # 🌐 RotaFacil - Sistema Web
 
