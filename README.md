@@ -1,30 +1,50 @@
-# React + TypeScript + Vite
+**README - RotaFacil **
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 🌐 RotaFacil - Sistema Web
 
-Currently, two official plugins are available:
+## Sobre o Projeto
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+O RotaFacil é a solução que vai transformar a sua experiência no transporte público. Desenvolvido com carinho em TypeScript e React, o sistema traz informações em tempo real, itinerários claros e eficiência para o seu dia a dia.
 
-## Expanding the ESLint configuration
+## 🚀 Recursos Destacados
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Front-End
 
-- Configure the top-level `parserOptions` property like this:
+- **React com TypeScript**
+  - Desenvolvimento seguro e eficiente.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+- **Styled-components**
+  - Estilo bonito e amigável.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- **Estrutura Organizada**
+  - Pastas organizadas para facilitar o entendimento.
+
+- **Loading Dinâmico**
+  - Indicador visual para processamento de requisições.
+
+## 🐳 Dockerizando o Projeto
+
+- **Facilite com Docker**
+  - Use Docker para garantir que todos tenham o mesmo ambiente.
+  - Veja as instruções abaixo.
+
+## 🛠️ Como Rodar com Docker
+
+1. Certifique-se de ter o Docker instalado.
+
+2. Clone o repositório.
+   ```bash
+   git clone https://github.com/seu-usuario/RotaFacil.git
+   ```
+
+3. Navegue até o diretório do projeto.
+   ```bash
+   cd RotaFacil
+   ```
+
+4. Execute o projeto com Docker.
+   ```bash
+   docker-compose up
+   ```
+
+Acesse o RotaFacil em [http://localhost:4173](http://localhost:4173).
