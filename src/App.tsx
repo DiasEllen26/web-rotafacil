@@ -11,6 +11,7 @@ import { Gestor } from "./pages/Gestor/lista/Gestor"
 import { FormularioGestor } from "./pages/Gestor/formulario/FormularioGestor"
 import Usuarios from "./pages/usuario/lista"
 import Rotas from "./pages/Rota/lista"
+import RotaFormulario from "./pages/Rota/formulario"
 
 function App() {
 
@@ -44,6 +45,9 @@ function App() {
 				<Route path="/usuario" element={<Usuarios />} />
 
 				<Route path="/rota" element={<Rotas />} />
+				<Route path="/rota/cadastrar" element={<RotaFormulario />} />
+				<Route path="/rota/:id/editar" element={<RotaFormulario />} />
+
 			</Routes>
 		{/* </ContentWrapper> */}
     </>
