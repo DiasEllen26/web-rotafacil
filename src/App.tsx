@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router-dom"
 import { Home } from "./pages/Home"
-import { Rotas } from "./pages/Rotas"
-import { ContentWrapper, GlobalStyle } from "./styles/global"
+import {  GlobalStyle } from "./styles/global"
 import Header from "./components/Navbar"
 import { FormTest } from "./pages/FormTest"
 import Login from "./pages/Login/Login"
@@ -11,6 +10,7 @@ import { FormularioTransportadora } from "./pages/Trasnportadora/formulario/Form
 import { Gestor } from "./pages/Gestor/lista/Gestor"
 import { FormularioGestor } from "./pages/Gestor/formulario/FormularioGestor"
 import Usuarios from "./pages/usuario/lista"
+import Rotas from "./pages/Rota/lista"
 
 function App() {
 
@@ -31,7 +31,6 @@ function App() {
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/login" element={<Login />} />
-				<Route path="/rotas" element={<Rotas />} />
 				<Route path="/form" element={<FormTest />} />
 
 				<Route path="/transportadora" element={<Transportadora />} />
@@ -44,6 +43,7 @@ function App() {
 
 				<Route path="/usuario" element={<Usuarios />} />
 
+				<Route path="/rota" element={<Rotas />} />
 			</Routes>
 		{/* </ContentWrapper> */}
     </>
