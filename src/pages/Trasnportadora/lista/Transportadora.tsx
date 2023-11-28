@@ -7,7 +7,7 @@ import { deleteById } from "../../../utils/firebase/deleteById";
 import { Loading } from "../../../components/Loading/Loading";
 import Swal from "sweetalert2";
 import Lista from "../../../components/Lista";
-import { ButtonCadastrar, ContainerButton } from "../../../components/Lista/style";
+import {StyledButtonContainer, StyledCadastrarButton} from "../../../components/Lista/style"
 
 
 
@@ -65,15 +65,15 @@ export function Transportadora(){
 					editPath="editar"
 					renderFields={renderTransportadoraFields}
 				/>
-				<ContainerButton>
-					<ButtonCadastrar
+				<StyledButtonContainer>
+					<StyledCadastrarButton
 							onClick={() => {
 								navigate('/transportadora/cadastrar')
 							}}
 						>
 							Cadastrar
-					</ButtonCadastrar>
-				</ContainerButton>
+					</StyledCadastrarButton>
+				</StyledButtonContainer>
 		</>
 	)
 }
