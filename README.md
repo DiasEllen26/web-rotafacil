@@ -34,12 +34,12 @@ O RotaFacil é a solução que vai transformar a sua experiência no transporte 
 
 2. Clone o repositório.
    ```bash
-   git clone https://github.com/DiasEllen26/web0ritafacuk.git
+   git clone https://github.com/DiasEllen26/web-rotafacil.git
    ```
 
 3. Navegue até o diretório do projeto.
    ```bash
-   cd RotaFacil
+   cd web-rotafacil
    ```
 
 4. Execute o projeto com Docker.
