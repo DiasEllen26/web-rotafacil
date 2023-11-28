@@ -1,49 +1,65 @@
-import { Route, Routes } from "react-router-dom"
+import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { Home } from "./pages/Home"
 import { Rotas } from "./pages/Rotas"
-import { ContentWrapper, GlobalStyle } from "./styles/global"
+import {  GlobalStyle } from "./styles/global"
 import Header from "./components/Navbar"
 import { FormTest } from "./pages/FormTest"
 import Login from "./pages/Login/Login"
-import { useEffect, useState } from "react"
 import { Transportadora } from "./pages/Trasnportadora/lista/Transportadora"
 import { FormularioTransportadora } from "./pages/Trasnportadora/formulario/FormularioTransportadora"
 import { Gestor } from "./pages/Gestor/lista/Gestor"
 import { FormularioGestor } from "./pages/Gestor/formulario/FormularioGestor"
+import { AuthProvider, useAuth } from "./context/AuthContext.tsx"
+import  ProtectedRoute  from "./routes/ProtectedRoute.tsx"
+import { useState } from "react"
+import { IGestor } from "./types/IGestor.ts"
 
 function App() {
 
-  const [showHeader, setShowHeader] = useState(true);
+	const { isAuthenticated } = useAuth();
 
-	useEffect(() => {
-    const currentPath = window.location.pathname;
-    setShowHeader(currentPath !== '/login');
-  }, []);
+	const [gestor, setGestor] = useState<IGestor>()
 
+	const gestorData = localStorage.getItem('gestor');
+
+		if(gestorData){
+			setGestor(JSON.parse(gestorData))
+		}
 
 
   return (
     <>
 		<GlobalStyle />
-		{showHeader && <Header />}
-		{/* <ContentWrapper> */}
-			<Routes>
-				<Route path="/" element={<Home />} />
-				<Route path="/login" element={<Login />} />
-				<Route path="/rotas" element={<Rotas />} />
-				<Route path="/form" element={<FormTest />} />
+		<AuthProvider>
+		{isAuthenticated && <Header />}
+			<BrowserRouter>
+				<Routes>
+				<Route element={<ProtectedRoute />}>
 
-				<Route path="/transportadora" element={<Transportadora />} />
-				<Route path="/transportadora/:id/editar" element={<FormularioTransportadora />} />
-				<Route path="/transportadora/cadastrar" element={<FormularioTransportadora />} />
+					<Route path="/" element={<Home />} />
+					<Route path="/rotas" element={<Rotas />} />
+					<Route path="/form" element={<FormTest />} />
 
-				<Route path="/gestor" element={<Gestor />} />
-				<Route path="/gestor/cadastrar" element={<FormularioGestor />} />
-				<Route path="/gestor/:id/editar" element={<FormularioGestor/>} />
+					<Route path="/transportadora" element={<Transportadora />} />
+					<Route path="/transportadora/:id/editar" element={<FormularioTransportadora />} />
+					<Route path="/transportadora/cadastrar" element={<FormularioTransportadora />} />
 
-			</Routes>
-		{/* </ContentWrapper> */}
-    </>
+					<Route path="/gestor" element={<Gestor />} />
+					<Route path="/gestor/cadastrar" element={<FormularioGestor />} />
+					<Route path="/gestor/:id/editar" element={<FormularioGestor/>} />
+
+					</Route>
+
+
+
+					<Route path="/login" element={<Login />} />
+
+
+
+				</Routes>
+			</BrowserRouter>
+    </AuthProvider>
+		</>
   )
 }
 
