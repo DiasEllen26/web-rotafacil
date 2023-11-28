@@ -8,6 +8,7 @@ import { ButtonEnviarFormulario, ContentContainer, Formulario, InputFormulario, 
 import Swal from "sweetalert2";
 import { FindReference } from "../../../utils/firebase/FindReference";
 import { createDoc } from "../../../utils/firebase/createDoc";
+import { updateDocById } from "../../../utils/firebase/updateDocById";
 
 export default function FormularioVeiculo(){
 
@@ -77,6 +78,22 @@ export default function FormularioVeiculo(){
 			navigate('/veiculo')
 			return
 		}
+
+		if(!id){
+			return
+		}
+
+		const data = {
+			descricao,
+			assento,
+			placa,
+			id_rota: await FindReference('rota', rotaSelected)
+		}
+
+		await updateDocById('veiculo',id,data);
+		navigate('/veiculo')
+		return
+
 	}
 
 	return(
