@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IGestor } from "../../../types/IGestor";
 import { getAllByCollection } from "../../../utils/firebase/getAllByCollection";

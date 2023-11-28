@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IUsuario } from "../../../types/IUsuario";
 import { getAllByCollection } from "../../../utils/firebase/getAllByCollection";
 import { deleteById } from "../../../utils/firebase/deleteById";

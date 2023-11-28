@@ -1,5 +1,5 @@
 import { Navbar, NavbarItems, NavbarLogo, NavbarItem, NavbarItemInner, NavbarItemInnerIconWrapper, LinkText } from './styled';
-import { FaHome, FaBusAlt } from 'react-icons/fa';
+import { FaBusAlt } from 'react-icons/fa';
 import { IoBusiness } from "react-icons/io5";
 import { FaMapLocationDot, FaUserLarge  } from "react-icons/fa6";
 import { RiAdminFill } from "react-icons/ri";

@@ -70,7 +70,7 @@ export default function RotaFormulario(){
 	}
 
 	async function  definirRotaExistente(id: string){
-		const { chegada, descricao, destino, id_transportadora, localPartida, saida  } = await findById("rota",id) as unknown as IRotaResponse;
+		const { chegada, descricao, destino, localPartida, saida  } = await findById("rota",id) as unknown as IRotaResponse;
 
 		// const transportadoraData = transportadoras?.find( transportadora => transportadora.id === id)		setTransportadoraSelected(id_transportadora.id)
 		setDescricao(descricao);
