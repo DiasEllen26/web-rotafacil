@@ -13,48 +13,37 @@ import { AuthProvider, useAuth } from "./context/AuthContext.tsx"
 import  ProtectedRoute  from "./routes/ProtectedRoute.tsx"
 import { useState } from "react"
 import { IGestor } from "./types/IGestor.ts"
+import HeaderRoutes from "./routes/HeaderRoutes.tsx"
 
 function App() {
 
 	const { isAuthenticated } = useAuth();
 
-	const [gestor, setGestor] = useState<IGestor>()
-
-	const gestorData = localStorage.getItem('gestor');
-
-		if(gestorData){
-			setGestor(JSON.parse(gestorData))
-		}
-
-
   return (
     <>
 		<GlobalStyle />
 		<AuthProvider>
-		{isAuthenticated && <Header />}
 			<BrowserRouter>
 				<Routes>
+				{isAuthenticated && <Header />}
 				<Route element={<ProtectedRoute />}>
+					<Route element={<HeaderRoutes />}>
+						<Route path="/" element={<Home />} />
+						<Route path="/rotas" element={<Rotas />} />
+						<Route path="/form" element={<FormTest />} />
 
-					<Route path="/" element={<Home />} />
-					<Route path="/rotas" element={<Rotas />} />
-					<Route path="/form" element={<FormTest />} />
+						<Route path="/transportadora" element={<Transportadora />} />
+						<Route path="/transportadora/:id/editar" element={<FormularioTransportadora />} />
+						<Route path="/transportadora/cadastrar" element={<FormularioTransportadora />} />
 
-					<Route path="/transportadora" element={<Transportadora />} />
-					<Route path="/transportadora/:id/editar" element={<FormularioTransportadora />} />
-					<Route path="/transportadora/cadastrar" element={<FormularioTransportadora />} />
-
-					<Route path="/gestor" element={<Gestor />} />
-					<Route path="/gestor/cadastrar" element={<FormularioGestor />} />
-					<Route path="/gestor/:id/editar" element={<FormularioGestor/>} />
+						<Route path="/gestor" element={<Gestor />} />
+						<Route path="/gestor/cadastrar" element={<FormularioGestor />} />
+						<Route path="/gestor/:id/editar" element={<FormularioGestor/>} />
 
 					</Route>
+				</Route>
 
-
-
-					<Route path="/login" element={<Login />} />
-
-
+				<Route path="/login" element={<Login />} />
 
 				</Routes>
 			</BrowserRouter>

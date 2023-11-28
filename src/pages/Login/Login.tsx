@@ -58,9 +58,7 @@ export function Login() {
 			}
 
 			login()
-			// navigate('/gestor')
-			localStorage.setItem("gestor", JSON.stringify(user));
-			window.location.reload();
+			navigate('/gestor')
 		}
 	};
 
