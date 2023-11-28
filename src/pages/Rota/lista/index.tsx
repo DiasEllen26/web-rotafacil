@@ -7,6 +7,7 @@ import formatarDataBrasileira from "../../../utils/dates/FormatarDataBrasileira"
 import { Link } from "react-router-dom";
 import { FaPencil, FaRegTrashCan } from "react-icons/fa6";
 import { ITrasnportadora } from "../../../types/ITrasnportadora";
+import { Loading } from "../../../components/Loading/Loading";
 
 
 interface IRotaResponse {
@@ -31,6 +32,9 @@ export default function Rotas(){
 
 	const navigate = useNavigate()
 
+	const [isLoading, setLoading] = useState<boolean>(true);
+
+
 	const [rotas, setRotas] = useState<IRotaResponse[]>();
 	const [transportadoras, setTransportadoras] = useState<ITrasnportadora[]>();
 
@@ -42,6 +46,7 @@ export default function Rotas(){
 
 		setRotas(data);
 		setTransportadoras(transportadoraData);
+		setLoading(false);
 	}
 
 	useEffect(()=>{
@@ -50,9 +55,11 @@ export default function Rotas(){
 
 	async function handleDelete(id: string){
 		try{
+			setLoading(true)
 			await deleteById("rota", id);
 			const newRotas = rotas?.filter(rota => rota.id !== id);
 			setRotas(newRotas);
+			setLoading(false)
 		}catch(error){
 			window.alert(error);
 		}
@@ -60,6 +67,7 @@ export default function Rotas(){
 
 	return (
 		<>
+			<Loading visible={isLoading} />
 			<ContentContainer>
 				<ListContainer>
 					{rotas?.map( rota => (

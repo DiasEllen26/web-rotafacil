@@ -6,6 +6,7 @@ import { ButtonCadastrar, ButtonDeletar, ContainerButton, ContentContainer, List
 import { IRotas } from "../../../types/IRotas";
 import { Link } from "react-router-dom";
 import { FaPencil, FaRegTrashCan } from "react-icons/fa6";
+import { Loading } from "../../../components/Loading/Loading";
 
 interface IVeiculoResponse {
 	id: string;
@@ -24,6 +25,8 @@ export default function Veiculos(){
 	const [veiculos, setVeiculos] = useState<IVeiculoResponse[]>();
 	const [rotas, setRotas] = useState<IRotas[]>();
 
+	const [isLoading, setLoading] = useState<boolean>(true);
+
 	async function getAllVeiculos() {
 		const [data, rotaData] = await Promise.all([
 			getAllByCollection("veiculo") as unknown as IVeiculoResponse[],
@@ -32,6 +35,7 @@ export default function Veiculos(){
 		console.log(data)
 		setVeiculos(data);
 		setRotas(rotaData)
+		setLoading(false)
 	}
 
 	useEffect(()=>{
@@ -40,9 +44,11 @@ export default function Veiculos(){
 
 	async function handleDelete(id: string){
 		try{
+			setLoading(true)
 			await deleteById("veiculo", id);
 			const newVeiculos = veiculos?.filter(veiculo => veiculo.id !== id);
 			setVeiculos(newVeiculos);
+			setLoading(false)
 		}catch(error){
 			window.alert(error);
 		}
@@ -51,6 +57,7 @@ export default function Veiculos(){
 
 	return(
 		<>
+		<Loading visible={isLoading} />
 		<ContentContainer>
 			<ListContainer>
 				{veiculos?.map(veiculo => (

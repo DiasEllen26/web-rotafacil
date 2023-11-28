@@ -6,24 +6,31 @@ import { type ITrasnportadora } from "../../../types/ITrasnportadora";
 import { getAllByCollection } from "../../../utils/firebase/getAllByCollection";
 import { Link } from "react-router-dom";
 import { deleteById } from "../../../utils/firebase/deleteById";
+import { Loading } from "../../../components/Loading/Loading";
 
 
 
 export function Transportadora(){
 	const navigate = useNavigate()
 
+	const [isLoading, setLoading] = useState<boolean>(true);
+
+
 	const [transportadoras, setTransportadoras] = useState<ITrasnportadora[]>()
 
 	async function getAllTransportadoras(){
 		const data = await getAllByCollection("transportadora") as unknown as ITrasnportadora[]
 		setTransportadoras(data);
+		setLoading(false)
 	}
 
 	async function handleDelete(id: string){
     try{
+			setLoading(true)
 			await deleteById("transportadora", id);
 			const newTransportadoras = transportadoras?.filter(transportadora => transportadora.id !== id);
 			setTransportadoras(newTransportadoras);
+			setLoading(false)
 		}catch(error){
 			window.alert(error);
 		}
@@ -36,6 +43,7 @@ export function Transportadora(){
 
 	return (
 		<>
+			<Loading visible={isLoading} />
 				<ContainerContent>
 
 					{transportadoras?.map( transportadora => (

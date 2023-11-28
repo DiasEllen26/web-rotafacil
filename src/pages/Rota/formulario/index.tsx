@@ -9,6 +9,7 @@ import { FindReference } from "../../../utils/firebase/FindReference";
 import { updateDocById } from "../../../utils/firebase/updateDocById";
 import { ButtonEnviarFormulario, ContainerContent, Formulario, InputFormulario } from "../../../components/Formulario";
 import { SelectTransportadora } from "./style";
+import { Loading } from "../../../components/Loading/Loading";
 
 interface IRotaResponse {
 	id: string;
@@ -28,7 +29,7 @@ interface IRotaResponse {
 }
 
 export default function RotaFormulario(){
-
+	const [isLoading, setLoading] = useState<boolean>(false);
 
 	const navigate = useNavigate()
 
@@ -49,9 +50,11 @@ export default function RotaFormulario(){
 	const [transportadoraSelected, setTransportadoraSelected] = useState<string>();
 
 	useEffect(()=>{
+		setLoading(true)
 		encontrarTransportadoras()
 
 		if(id){
+			setLoading(true)
 			definirRotaExistente(id);
 			setCreating(false)
 		}
@@ -61,21 +64,21 @@ export default function RotaFormulario(){
 	async function encontrarTransportadoras(){
 		const transportadoras = await getAllByCollection("transportadora") as unknown as ITrasnportadora[];
 		setTransportadoras(transportadoras)
+		if(!id){
+			setLoading(false)
+		}
 	}
 
 	async function  definirRotaExistente(id: string){
 		const { chegada, descricao, destino, id_transportadora, localPartida, saida  } = await findById("rota",id) as unknown as IRotaResponse;
 
-		// const transportadoraData = transportadoras?.find( transportadora => transportadora.id === id)
-
-		console.log(id_transportadora)
-
-		setTransportadoraSelected(id_transportadora.id)
+		// const transportadoraData = transportadoras?.find( transportadora => transportadora.id === id)		setTransportadoraSelected(id_transportadora.id)
 		setDescricao(descricao);
 		setLocalPartida(localPartida);
 		setDestino(destino);
 		setChegada(new Date(chegada.seconds * 1000));
 		setSaida(new Date(saida.seconds * 1000))
+		setLoading(false)
 	}
 
 	const handleSelecaoTransportadora = (event: any) => {
@@ -103,7 +106,9 @@ export default function RotaFormulario(){
 				chegada,
 				id_transportadora: await FindReference("transportadora", transportadoraSelected)
 			}
+			setLoading(true);
 			await createDoc("rota", data)
+			setLoading(false);
 			navigate('/rota')
 			return
 		}
@@ -120,14 +125,16 @@ export default function RotaFormulario(){
 			chegada,
 			id_transportadora: await FindReference("transportadora", transportadoraSelected)
 		}
-
+		setLoading(true);
 		await updateDocById('rota',id,data);
+		setLoading(false);
 		navigate('/rota')
 		return
 	}
 
 	return(
 		<>
+		<Loading visible={isLoading} />
 		<ContainerContent>
 			<Formulario onSubmit={cadastrarOuEditarRota}>
 				<label>Descrição</label>

@@ -2,14 +2,19 @@ import { useEffect, useState } from "react";
 import { IUsuario } from "../../../types/IUsuario";
 import { getAllByCollection } from "../../../utils/firebase/getAllByCollection";
 import { ContentContainer, ListContainer } from "./style";
+import { Loading } from "../../../components/Loading/Loading";
 
 export default function Usuarios(){
 
 	const [usuarios, setUsuarios] = useState<IUsuario[]>();
 
+	const [isLoading, setLoading] = useState<boolean>(true);
+
+
 	async function getAllUsuarios(){
 		const data = await getAllByCollection("usuario") as unknown as IUsuario[];
 		setUsuarios(data);
+		setLoading(false)
 	}
 
 	useEffect(()=>{
@@ -18,6 +23,7 @@ export default function Usuarios(){
 
 	return(
 		<>
+			<Loading visible={isLoading} />
 			<ContentContainer>
 				<ListContainer>
 					{usuarios?.map(usuario => (

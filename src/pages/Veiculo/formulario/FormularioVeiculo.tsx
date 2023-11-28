@@ -9,6 +9,7 @@ import { createDoc } from "../../../utils/firebase/createDoc";
 import { updateDocById } from "../../../utils/firebase/updateDocById";
 import { ButtonEnviarFormulario, ContainerContent, Formulario, InputFormulario } from "../../../components/Formulario";
 import { SelectRota } from "./style";
+import { Loading } from "../../../components/Loading/Loading";
 
 interface IVeiculoResponse {
 	id: string;
@@ -36,11 +37,14 @@ export default function FormularioVeiculo(){
 	const [rotaSelected, setRotaSelected] = useState<string>("");
 
 
+	const [isLoading, setLoading] = useState<boolean>(false);
+
 
 	useEffect(()=>{
 		encontrarRotas()
 
 		if(id){
+			setLoading(true)
 			definirVeiculoExistente(id);
 			setCreating(false)
 		}
@@ -54,11 +58,17 @@ export default function FormularioVeiculo(){
 		setAssento(assento);
 		setPlaca(placa);
 		setRotaSelected(id_rota.id);
+		setLoading(false)
 	}
 
 	async function encontrarRotas(){
+		setLoading(true)
 		const rotas = await getAllByCollection("rota") as unknown as IRotas[];
 		setRotas(rotas)
+		if(!id){
+			setLoading(false)
+		}
+
 	}
 
 	function handleSelecaoRota(event: any){
@@ -84,7 +94,9 @@ export default function FormularioVeiculo(){
 				placa,
 				id_rota: await FindReference('rota', rotaSelected)
 			}
+			setLoading(true);
 			await createDoc("veiculo", data);
+			setLoading(false);
 			navigate('/veiculo')
 			return
 		}
@@ -99,8 +111,9 @@ export default function FormularioVeiculo(){
 			placa,
 			id_rota: await FindReference('rota', rotaSelected)
 		}
-
+		setLoading(true);
 		await updateDocById('veiculo',id,data);
+		setLoading(false);
 		navigate('/veiculo')
 		return
 
@@ -108,6 +121,7 @@ export default function FormularioVeiculo(){
 
 	return(
 		<>
+			<Loading visible={isLoading} />
 			<ContainerContent>
 				<Formulario onSubmit={cadastrarOuEditarVeiculo}>
 					<label>Descrição</label>

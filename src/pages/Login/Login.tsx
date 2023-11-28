@@ -1,16 +1,19 @@
 import logo from "../../imagens/logo.png";
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import { ContainerContent, LoginButton, LoginContainer, LoginForm, LoginInput, Logo } from './style';
 import { findByAttribute } from "../../utils/firebase/findByAttribute";
 import { IGestor } from "../../types/IGestor";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { Loading } from "../../components/Loading/Loading";
 
 
 export function Login() {
 	const usernameRef = useRef<HTMLInputElement>(null);
 	const passwordRef = useRef<HTMLInputElement>(null);
+
+	const [isLoading, setLoading] = useState<boolean>(false);
 
 	const { login } = useAuth()
 
@@ -34,9 +37,9 @@ export function Login() {
 		if (usernameRef.current && passwordRef.current) {
 			const loginInput = usernameRef.current.value;
 			const senhaInput = passwordRef.current.value;
-
+			setLoading(true)
 			const user = await findByAttribute('gestor', "login", loginInput) as IGestor | null;
-
+			setLoading(false)
 			if(!user){
 				Swal.fire({
 					icon: "error",
@@ -64,6 +67,7 @@ export function Login() {
 
 	return (
 		<>
+		<Loading visible={isLoading} />
 		<LoginContainer>
       <ContainerContent>
 				<LoginForm onSubmit={handleLogin}>
